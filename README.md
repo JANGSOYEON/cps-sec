@@ -12,3 +12,4 @@ git 수정중...!
 ㅎㅇㅎㅇ
 
 wanna go home
+수정또한다! vscode로 바로가게 하는거 code .
