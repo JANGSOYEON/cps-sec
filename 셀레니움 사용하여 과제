@@ -1,0 +1,57 @@
+'''
+1. 학교 공지사항 크롤링한다
+cauNotice에서는 웹드라이버만 사용
+
+셀레니움 사용 가능 but req 랑 bea가 익숙하니 이것 사용
+'''
+
+from selenium import webdriver
+from bs4 import BeautifulSoup
+import os
+import time    
+
+#os 랑 time은 파이썬 내장묘듈 = 따로 설치 필요 없음
+
+#크롬 드라이버 필요 = 셀레니움은 크롬 드라이버라는 실행파일 가지고 크롬 실행시키도록!
+
+path = os.getcwd() + "/python/chromedriver.exe"
+#path는 python이 현재 실행중인 경로를 나타냄
+
+driver = webdriver.Chrome(path)
+
+try : 
+    driver.get("https://www.cau.ac.kr/cms/FR_CON/index.do?MENU_ID=100#page1")
+    time.sleep(1)
+
+    html = driver.page_source
+    bs = BeautifulSoup(html, "html.parser")
+
+    pages = bs.find("div", class_ = "pagination").find_all("a")[-1]["href"].split("page")[1]
+    #href를 하므로써 21페이지까지 잘 나옴
+    #split을 해주면 21페이지만 나오게됨
+    pages = int(pages)
+
+    title = []
+    for i in range(3) :
+        driver.get("https://www.cau.ac.kr/cms/FR_CON/index.do?MENU_ID=2130#page" +str(i +1))
+        time.sleep(3)
+        
+        html = driver.page_source
+        bs = BeautifulSoup(html, "html.parser")                                                    #int값 나오는걸 string으로 바꿔준다
+
+        conts = bs.find_all("div", class_ = "txtL")
+        title.append("page" + str(i + 1))
+        for c in conts : 
+            title.append(C.find("a").text)
+
+
+
+finally:
+    #time.sleep(3)  #3초만 재생 후 꺼준다
+    for i in title : 
+        if t.find("page") != -1 : 
+            print()
+            print(t)
+        else : 
+            print(t)         
+    driver.quit()
